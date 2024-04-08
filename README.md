@@ -11,8 +11,21 @@ Ini adalah Back-End dari proyek [GISPetaKotgor](https://github.com/afandylatodjo
 <li>Zombie.js</li>
 
 ## Install
-Proyek ini dapat diinstall dengan perintah
+Klon repo terlebih dahulu 
 ```sh
-$ npm install
+#https
+git clone https://github.com/afandylatodjo/GISKotGor-BE.git
+
+#ssh
+git clone git@github.com:afandylatodjo/GISKotGor-BE.git
 ```
+Selanjutnya install dependensi dengan perintah
+```sh
+npm install
+```
+Setelah diinstall proyek dapat dijalankan dengan perintah
+```sh
+node app.js
+```
+
 
