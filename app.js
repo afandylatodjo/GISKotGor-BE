@@ -20,15 +20,20 @@ const priceType = {
     "produsen": 4
 }
 
-const date = new Date();
+function setDate(date){
+    return new Date(Date.now() +  (date * 24 * 60 * 60 * 1000) );
+}
+
+function dateLinkFormater(date){
+    const format = date.toISOString().slice(0, 10);
+
+    return format;
+}
+
 function setUrl(type){
-    let startDate = `${String(date.getFullYear())}-${String((date.getMonth() < 12 ? date.getMonth()+1 : date.getMonth())).padStart(2, 0)}-${String(date.getDate()-3).padStart(2, 0)}`
 
-    let endDate = `${String(date.getFullYear())}-${String((date.getMonth() < 12 ? date.getMonth()+1 : date.getMonth())).padStart(2, 0)}-${String(date.getDate()).padStart(2, 0)}`
-
-    let url = `
-    https://www.bi.go.id/hargapangan/WebSite/TabelHarga/GetGridDataDaerah?price_type_id=${type}&comcat_id=cat_1&province_id=25&regency_id=66&market_id=&tipe_laporan=1&start_date=${startDate}&end_date=${endDate}&_=${String(date.getTime())}
-    `
+    let startDate = dateLinkFormater(setDate(-7)), endDate = dateLinkFormater(setDate(0));
+    let url = `https://www.bi.go.id/hargapangan/WebSite/TabelHarga/GetGridDataDaerah?price_type_id=${type}&comcat_id=cat_1&province_id=25&regency_id=66&market_id=&tipe_laporan=1&start_date=${startDate}&end_date=${endDate}&_=${(new Date()).getTime()}`
     return url;
 }
 
@@ -39,6 +44,7 @@ app.get("/getPasarTradisional", async (req, res)=>{
         await browser.visit(setUrl(priceType.pasarTradisional), ()=>{
             let resp = browser.querySelector("body").innerHTML;
             resp = JSON.parse(resp.toString());
+            console.log(resp);
             res.json(resp.data);
         })
     }catch(err){
